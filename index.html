@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JUSTICE-KP | Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue-700:#1d40af; --blue-600:#1d4ed8; --blue-500:#2563eb;
+      --blue-400:#3b82f6; --blue-300:#93c5fd; --blue-200:#bfdbfe;
+      --black:#060709; --gray-900:#111827; --gray-800:#1f2937;
+      --gray-700:#374151; --gray-600:#4b5563; --gray-500:#6b7280;
+      --gray-400:#9ca3af; --gray-300:#d1d5db; --gray-200:#e5e7eb;
+      --white:#ffffff; --red-500:#ef4444; --red-300:#fca5a5;
+      --radius:10px; --radius-lg:18px;
+      --font-head:'Syne',sans-serif; --font-body:'DM Sans',sans-serif;
+      --trans:all 0.22s ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font-body);background:var(--gray-900);color:var(--white);min-height:100vh;display:flex;align-items:stretch;overflow-x:hidden;position:relative;}
+    .bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(59,130,246,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.05) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;}
+    .bg-glow{position:fixed;z-index:0;border-radius:50%;pointer-events:none;filter:blur(100px);opacity:.2;}
+    .bg-glow.tl{width:520px;height:520px;top:-180px;left:-150px;background:var(--blue-500);}
+    .bg-glow.br{width:440px;height:440px;bottom:-160px;right:-120px;background:var(--blue-700);}
+    .login-wrapper{position:relative;z-index:1;display:flex;width:100%;min-height:100vh;}
+    /* Brand panel */
+    .brand-panel{flex:1.15;background:linear-gradient(150deg,var(--gray-800) 0%,var(--black) 100%);padding:64px 60px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,.07);position:relative;overflow:hidden;}
+    .brand-panel::before{content:'';position:absolute;top:-90px;right:-90px;width:380px;height:380px;border-radius:50%;border:1px solid rgba(59,130,246,.14);}
+    .brand-panel::after{content:'';position:absolute;bottom:-60px;left:-60px;width:260px;height:260px;border-radius:50%;border:1px solid rgba(59,130,246,.09);}
+    .brand-logo{display:flex;align-items:center;gap:14px;margin-bottom:44px;}
+    .logo-box{font-size:2rem;background:linear-gradient(135deg,var(--blue-500),var(--blue-700));width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,99,235,.45);flex-shrink:0;}
+    .logo-wordmark{font-family:var(--font-head);font-size:1.9rem;font-weight:800;letter-spacing:-.04em;color:var(--white);}
+    .logo-wordmark span{color:var(--blue-400);}
+    .brand-title{font-family:var(--font-head);font-size:2.1rem;font-weight:700;line-height:1.25;margin-bottom:18px;color:var(--white);}
+    .brand-sub{font-size:1rem;color:var(--gray-400);line-height:1.75;max-width:420px;margin-bottom:48px;}
+    .feature-list{display:flex;flex-direction:column;gap:14px;margin-bottom:56px;}
+    .feature-row{display:flex;align-items:center;gap:14px;font-size:.9rem;color:var(--gray-200);}
+    .feature-dot{width:36px;height:36px;border-radius:9px;flex-shrink:0;background:rgba(37,99,235,.15);border:1px solid rgba(59,130,246,.3);display:flex;align-items:center;justify-content:center;font-size:1rem;}
+    .brand-foot{font-size:.77rem;color:var(--gray-600);border-top:1px solid rgba(255,255,255,.07);padding-top:22px;margin-top:auto;}
+    /* Form panel */
+    .form-panel{flex:.85;background:var(--gray-900);display:flex;align-items:center;justify-content:center;padding:48px 36px;}
+    .form-card{width:100%;max-width:430px;background:rgba(31,41,55,.65);border:1px solid rgba(255,255,255,.09);border-radius:var(--radius-lg);padding:48px 44px;backdrop-filter:blur(16px);box-shadow:0 24px 64px rgba(0,0,0,.4);}
+    .card-logo{display:flex;align-items:center;gap:9px;margin-bottom:24px;}
+    .card-logo-box{font-size:1rem;background:linear-gradient(135deg,var(--blue-500),var(--blue-700));width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;}
+    .card-logo-text{font-family:var(--font-head);font-size:1.05rem;font-weight:800;color:var(--white);letter-spacing:-.02em;}
+    .card-logo-text span{color:var(--blue-400);}
+    .card-heading{margin-bottom:36px;}
+    .card-heading h2{font-family:var(--font-head);font-size:1.55rem;font-weight:700;color:var(--white);margin-bottom:8px;}
+    .card-heading p{font-size:.875rem;color:var(--gray-400);line-height:1.6;}
+    .field-group{margin-bottom:22px;}
+    .field-group label{display:block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-300);margin-bottom:9px;}
+    .field-wrap{position:relative;display:flex;align-items:center;}
+    .field-icon{position:absolute;left:14px;font-size:1rem;pointer-events:none;line-height:1;}
+    .field-wrap input{width:100%;background:rgba(17,24,39,.7);border:1.5px solid var(--gray-700);border-radius:var(--radius);padding:13px 16px 13px 46px;font-family:var(--font-body);font-size:.95rem;color:var(--white);outline:none;transition:var(--trans);}
+    .field-wrap input::placeholder{color:var(--gray-600);}
+    .field-wrap input:focus{border-color:var(--blue-500);background:rgba(37,99,235,.07);box-shadow:0 0 0 3px rgba(59,130,246,.18);}
+    .field-group.has-error .field-wrap input{border-color:var(--red-500);box-shadow:0 0 0 3px rgba(239,68,68,.13);}
+    .err-text{display:block;font-size:.77rem;color:var(--red-500);margin-top:6px;min-height:17px;}
+    .pw-toggle{position:absolute;right:12px;background:none;border:none;cursor:pointer;font-size:1rem;color:var(--gray-500);padding:5px;transition:var(--trans);}
+    .pw-toggle:hover{color:var(--white);}
+    .extras-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
+    .cb-label{display:flex;align-items:center;gap:9px;font-size:.84rem;color:var(--gray-400);cursor:pointer;user-select:none;}
+    .cb-label input{display:none;}
+    .cb-box{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--gray-600);background:var(--gray-800);display:inline-flex;align-items:center;justify-content:center;transition:var(--trans);font-size:.65rem;color:white;}
+    .cb-label input:checked ~ .cb-box{background:var(--blue-500);border-color:var(--blue-500);}
+    .forgot-link{font-size:.84rem;color:var(--blue-400);text-decoration:none;transition:var(--trans);}
+    .forgot-link:hover{color:var(--white);text-decoration:underline;}
+    .btn-login{width:100%;padding:15px 24px;background:linear-gradient(135deg,var(--blue-500) 0%,var(--blue-700) 100%);border:none;border-radius:var(--radius);font-family:var(--font-head);font-size:1rem;font-weight:700;color:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--trans);letter-spacing:.02em;position:relative;overflow:hidden;}
+    .btn-login::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);opacity:0;transition:var(--trans);}
+    .btn-login:hover::after{opacity:1;}
+    .btn-login:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(29,78,216,.5);}
+    .btn-login:active{transform:translateY(0);}
+    .btn-login:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none;}
+    .dot-row{display:flex;gap:5px;}
+    .dot{width:7px;height:7px;border-radius:50%;background:white;animation:pulse .65s infinite alternate;}
+    .dot:nth-child(2){animation-delay:.18s;} .dot:nth-child(3){animation-delay:.36s;}
+    @keyframes pulse{from{opacity:.25;transform:scale(.65);}to{opacity:1;transform:scale(1);}}
+    .hidden{display:none!important;}
+    .alert-error{margin-top:16px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.32);border-radius:var(--radius);padding:11px 15px;font-size:.85rem;color:var(--red-300);display:flex;align-items:center;gap:9px;animation:shake .3s ease;}
+    @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-7px);}75%{transform:translateX(7px);}}
+    .demo-hint{margin-top:22px;padding:11px 15px;background:rgba(37,99,235,.08);border:1px dashed rgba(59,130,246,.35);border-radius:9px;font-size:.8rem;color:var(--gray-500);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .demo-label{color:var(--blue-400);font-weight:600;white-space:nowrap;}
+    .demo-hint code{background:rgba(0,0,0,.3);padding:2px 9px;border-radius:5px;font-size:.79rem;color:var(--gray-200);}
+    .card-footer{margin-top:30px;padding-top:22px;border-top:1px solid rgba(255,255,255,.07);font-size:.75rem;color:var(--gray-600);text-align:center;line-height:1.8;}
+    @media(max-width:860px){.brand-panel{display:none;}.form-panel{flex:1;padding:28px 18px;}.form-card{padding:36px 28px;}}
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow tl"></div>
+  <div class="bg-glow br"></div>
+
+  <div class="login-wrapper">
+    <!-- LEFT BRAND PANEL -->
+    <div class="brand-panel">
+      <div class="brand-logo">
+        <div class="logo-box">⚖</div>
+        <div class="logo-wordmark">JUSTICE<span>-KP</span></div>
+      </div>
+      <h1 class="brand-title">Katarungang<br/>Pambarangay System</h1>
+      <p class="brand-sub">A neuro-symbolic AI decision-support system for barangay-level legal dispute resolution under Republic Act&nbsp;7160.</p>
+      <div class="feature-list">
+        <div class="feature-row"><div class="feature-dot">🧠</div><span>TagLish NLP &amp; Legal Named Entity Recognition</span></div>
+        <div class="feature-row"><div class="feature-dot">⚖</div><span>50+ RA 7160 Forward-Chaining Expert Rules</span></div>
+        <div class="feature-row"><div class="feature-dot">🔍</div><span>Explainable AI Reasoning Trace per Decision</span></div>
+        <div class="feature-row"><div class="feature-dot">📋</div><span>Auto-generated KP Forms &amp; Mediation Strategies</span></div>
+      </div>
+      <div class="brand-foot">Laguna State Polytechnic University &nbsp;·&nbsp; BSCS 2025–2026 &nbsp;·&nbsp; Research Prototype</div>
+    </div>
+
+    <!-- RIGHT FORM PANEL -->
+    <div class="form-panel">
+      <div class="form-card">
+        <div class="card-logo">
+          <div class="card-logo-box">⚖</div>
+          <div class="card-logo-text">JUSTICE<span>-KP</span></div>
+        </div>
+        <div class="card-heading">
+          <h2>Barangay Official Login</h2>
+          <p>Restricted to authorized Barangay personnel only. All access is logged per RA&nbsp;10173.</p>
+        </div>
+        <form id="loginForm" novalidate>
+          <div class="field-group" id="fg-user">
+            <label for="username">Username</label>
+            <div class="field-wrap">
+              <span class="field-icon">👤</span>
+              <input type="text" id="username" placeholder="Enter your username" autocomplete="username"/>
+            </div>
+            <span class="err-text" id="err-user"></span>
+          </div>
+          <div class="field-group" id="fg-pass">
+            <label for="password">Password</label>
+            <div class="field-wrap">
+              <span class="field-icon">🔒</span>
+              <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password"/>
+              <button type="button" class="pw-toggle" id="pwToggle">👁</button>
+            </div>
+            <span class="err-text" id="err-pass"></span>
+          </div>
+          <div class="extras-row">
+            <label class="cb-label">
+              <input type="checkbox" id="rememberMe"/>
+              <span class="cb-box" id="cbBox"></span>
+              Remember me
+            </label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn-login" id="btnLogin">
+            <span id="btnText">Sign In</span>
+            <span class="dot-row hidden" id="btnLoader"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+          </button>
+          <div class="alert-error hidden" id="alertError"><span>⚠</span>&nbsp;Invalid credentials. Please try again.</div>
+        </form>
+        <div class="demo-hint">
+          <span class="demo-label">Demo:</span>
+          <code>admin / admin123</code>&nbsp;
+          <code>kapitan / kapitan2025</code>
+        </div>
+        <div class="card-footer">JUSTICE-KP v2.0 &nbsp;·&nbsp; For authorized use only<br/><small>Sessions logged per RA 10173 (Data Privacy Act)</small></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      'use strict';
+      const USERS=[
+        {username:'admin',   password:'admin123',    role:'Administrator',   barangay:'Barangay 1 Santa Cruz'},
+        {username:'kapitan', password:'kapitan2025', role:'Punong Barangay', barangay:'Barangay Pila Proper'},
+        {username:'lupon',   password:'lupon2025',   role:'Lupon Member',    barangay:'Barangay 2 Pagsanjan'},
+      ];
+      const form=document.getElementById('loginForm'),inpU=document.getElementById('username'),
+            inpP=document.getElementById('password'),toggle=document.getElementById('pwToggle'),
+            btn=document.getElementById('btnLogin'),btnTxt=document.getElementById('btnText'),
+            ldr=document.getElementById('btnLoader'),alertEl=document.getElementById('alertError'),
+            errU=document.getElementById('err-user'),errP=document.getElementById('err-pass'),
+            fgU=document.getElementById('fg-user'),fgP=document.getElementById('fg-pass'),
+            remMe=document.getElementById('rememberMe'),cbBox=document.getElementById('cbBox');
+
+      remMe.addEventListener('change',()=>{cbBox.textContent=remMe.checked?'✓':'';});
+      toggle.addEventListener('click',()=>{const s=inpP.type==='password';inpP.type=s?'text':'password';toggle.textContent=s?'🙈':'👁';});
+      inpU.addEventListener('input',()=>{fgU.classList.remove('has-error');errU.textContent='';alertEl.classList.add('hidden');});
+      inpP.addEventListener('input',()=>{fgP.classList.remove('has-error');errP.textContent='';alertEl.classList.add('hidden');});
+      inpU.addEventListener('blur',()=>{if(!inpU.value.trim()){fgU.classList.add('has-error');errU.textContent='Username is required.';}});
+      inpP.addEventListener('blur',()=>{if(!inpP.value){fgP.classList.add('has-error');errP.textContent='Password is required.';}});
+
+      form.addEventListener('submit',function(e){
+        e.preventDefault(); alertEl.classList.add('hidden');
+        let ok=true;
+        if(!inpU.value.trim()){fgU.classList.add('has-error');errU.textContent='Username is required.';ok=false;}
+        if(!inpP.value){fgP.classList.add('has-error');errP.textContent='Password is required.';ok=false;}
+        if(!ok)return;
+        btn.disabled=true; btnTxt.classList.add('hidden'); ldr.classList.remove('hidden');
+        setTimeout(function(){
+          const m=USERS.find(u=>u.username===inpU.value.trim()&&u.password===inpP.value);
+          btn.disabled=false; btnTxt.classList.remove('hidden'); ldr.classList.add('hidden');
+          if(m){
+            sessionStorage.setItem('justice_kp_user',JSON.stringify({username:m.username,role:m.role,barangay:m.barangay,loginTime:new Date().toISOString()}));
+            if(remMe.checked)localStorage.setItem('justice_kp_remember',m.username);
+            window.location.href='main_page.html';
+          } else {
+            alertEl.classList.remove('hidden'); inpP.value='';
+          }
+        },900);
+      });
+      const saved=localStorage.getItem('justice_kp_remember');
+      if(saved){inpU.value=saved;remMe.checked=true;cbBox.textContent='✓';}
+      if(sessionStorage.getItem('justice_kp_user'))window.location.href='main_page.html';
+    })();
+  </script>
+</body>
+</html>
